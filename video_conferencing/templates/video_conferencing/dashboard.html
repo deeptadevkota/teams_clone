@@ -1,0 +1,118 @@
+{% load static %}
+<head>
+
+    <!-- Style Sheets and Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'video_conferencing/styles.css' %}">
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/de94240876.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <!-- <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <div class="top_most">
+        <section class="colored-section">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+
+                <a class="navbar-brand" href="">
+                    Microsoft Teams <span class="fab fa-microsoft"></span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#aboutUs">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#pricing">Sign Out</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="profile-pic" href="#">
+                                <img src="pic.jpg" alt="user-img" width="36"></a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+        </section>
+    </div>
+    <div class="container-fluid side_most">
+        <div class="row">
+            <nav class="navbar col-md-3 col-lg-2 d-md-block" style="background-color: #fff; ">
+                <!-- <div class="position-sticky pt-3"> -->
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+
+                            <h2>My Groups</h2>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+
+                            Team 1
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+
+                            Team 2
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+
+                            Team 3
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+
+                            Make a new group <i class="fas fa-user-plus"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!-- </div> -->
+            </nav>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Welcome to Group - Team 1</h1>
+                </div>
+                <div>
+                    <a href="#" class="btn btn-secondary btn-sm" role="button"
+                        style="width: 40%; margin-right: 1rem; height: 2rem;">View
+                        Members <i class="fas fa-users"></i></a>
+                    <a href="#" class="btn btn-secondary btn-sm" role="button" style="width: 40%;height: 2rem;"> Add
+                        Member <i class="fas fa-user-plus"></i></a>
+                </div>
+                <div>
+                    <a href="#" class="btn btn-secondary btn-lg main-button" role="button"> Start a Video-call <i
+                            class="fas fa-video" style="padding: 2%;"></i> <i class="fas fa-comments"></i></a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
