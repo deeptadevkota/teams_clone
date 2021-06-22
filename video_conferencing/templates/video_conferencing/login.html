@@ -31,13 +31,13 @@
                         <h2>Log In</h2>
                     </div>
                     <div class="row">
-                        <form control="" class="form-group">
+                        <form method="POST" action="login_form_submission">
+                            {% csrf_token %}
                             <div class="row">
                                 <input type="text" name="username" id="username" class="form__input"
                                     placeholder="Username">
                             </div>
                             <div class="row">
-                                <!-- <span class="fa fa-lock"></span> -->
                                 <input type="password" name="password" id="password" class="form__input"
                                     placeholder="Password">
                             </div>
