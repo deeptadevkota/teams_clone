@@ -6,9 +6,5 @@ urlpatterns = [
     path('login/', login_page, name="login_page"),
     path('register/', register_page, name="register_page"),
     path('dashboard/', dashboard_page, name="dashboard_page"),
-    path('register/register_form_submission', register_form_submission,
-         name="register_form_submission"),
-    path('login/login_form_submission', login_form_submission,
-         name="login_form_submission"),
-    path('register/login_form_submission', login_form_submission,
-         name="login_form_submission"), ]
+
+ ]
