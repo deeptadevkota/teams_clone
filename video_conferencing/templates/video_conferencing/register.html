@@ -35,23 +35,23 @@
                         <form control="" class="form-group" method="POST" action="">
                             {% csrf_token %}
                             <div class="row">
-                                <input type="text" name="first_name" id="first_name" class="form__input"
-                                    placeholder="First Name">
+                                <input type="text" name="first_name" id="first_name" class="form__input validate"
+                                    placeholder="First Name"  required >
                             </div>
                             <div class="row">
-                                <input type="text" name="last_name" id="last_name" class="form__input"
-                                    placeholder="Last Name">
+                                <input type="text" name="last_name" id="last_name" class="form__input validate"
+                                    placeholder="Last Name" required>
                             </div>
                             <div class="row">
-                                <input type="text" name="username" id="username" class="form__input"
-                                    placeholder="Username">
+                                <input type="text" name="username" id="username" class="form__input validate"
+                                    placeholder="Username" required>
                             </div>
                             <div class="row">
-                                <input type="email" name="email" id="email" class="form__input" placeholder="Email">
+                                <input type="email" name="email" id="email" class="form__input validate" placeholder="Email" required>
                             </div>
                             <div class="row">
-                                <input type="password" name="password" id="password" class="form__input"
-                                    placeholder="Password">
+                                <input type="password" name="password" id="password" class="form__input validate"
+                                    placeholder="Password" required>
                             </div>
                             <div class="row">
                                 <input type="submit" value="Sign Up" class="btn">

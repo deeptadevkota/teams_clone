@@ -34,12 +34,12 @@
                         <form method="POST" action="">
                             {% csrf_token %}
                             <div class="row">
-                                <input type="text" name="username" id="username" class="form__input"
-                                    placeholder="Username">
+                                <input type="text" name="username" id="username" class="form__input validate"
+                                    placeholder="Username" required>
                             </div>
                             <div class="row">
-                                <input type="password" name="password" id="password" class="form__input"
-                                    placeholder="Password">
+                                <input type="password" name="password" id="password" class="form__input validate"
+                                    placeholder="Password" required>
                             </div>
                             <div class="row">
                                 <input type="submit" value="Sign In" class="btn">
@@ -47,7 +47,7 @@
                         </form>
                     </div>
                     <div class="row">
-                        <p>Don't have an account? <a href="#">Register Here</a></p>
+                        <p>Don't have an account? <a href="/register/">Register Here</a></p>
                     </div>
                 </div>
             </div>

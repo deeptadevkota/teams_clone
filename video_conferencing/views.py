@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from .models import *
-from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 
 
@@ -33,13 +32,20 @@ def register_page(request):
         user = User.objects.create_user(
             username=username, password=password, email=email, last_name=last_name, first_name=first_name)
         user.save()
-        return redirect('/login/')
+
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            return redirect("/dashboard/")
 
 
 def dashboard_page(request):
-    # print(request.user.first_name)
-    return render(request, 'video_conferencing/dashboard.html', {})
+    username = request.user.username
+    user = User.objects.get(username=username)
+    user_teams = User_Team.objects.filter(user_name=username)
+    return render(request, 'video_conferencing/dashboard.html', {"users": user}, {"user_teams": user_teams})
 
 
-def demo_page(request):
-    return render(request, 'demo.html', {})
+def logout_page(request):
+    auth.logout(request)
+    return redirect("/login/")
