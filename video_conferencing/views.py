@@ -17,7 +17,7 @@ def login_page(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect("/dashboard/")
+            return redirect("/dashboard/0")
 
 
 def register_page(request):
@@ -36,15 +36,22 @@ def register_page(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect("/dashboard/")
+            return redirect("/dashboard/0")
 
 
-def dashboard_page(request):
+def dashboard_page(request,team_id):
     username = request.user.username
     user = User.objects.get(username=username)
     user_teams = User_Team.objects.filter(user_name=username)
-    return render(request, 'video_conferencing/dashboard.html', {"users": user}, {"user_teams": user_teams})
+    return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id":team_id})
 
+
+def team_form_page(request):
+    if request.method != "POST":
+        return render(request, 'video_conferencing/team_register.html', {})
+    else:
+        team_name = request.POST.get("team_name")
+        user_member = request.POST.get("user_member")
 
 def logout_page(request):
     auth.logout(request)

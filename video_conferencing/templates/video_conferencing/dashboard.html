@@ -68,24 +68,14 @@
                             <h2>My Groups</h2>
                         </a>
                     </li>
+                    {% for teams in user_teams %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-
-                            Team 1
+                        <!-- fix the URL here -->
+                        <a class="nav-link" href="/dashboard/{{teams.team_id}}/">
+                            {{teams.teams_id }} - {{teams.team_name}}
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-
-                            Team 2
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-
-                            Team 3
-                        </a>
-                    </li>
+                    {% endfor %}
                     <li class="nav-item">
                         <a class="nav-link" href="#">
 
@@ -96,9 +86,15 @@
                 <!-- </div> -->
             </nav>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                {% if team_id == '0' %}
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Welcome to Group - Team 1</h1>
+                    <h1 class="h2">Select your group or Create one to start a conversation!</h1>
+                </div>
+                {% else %}
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Welcome to Group - {{team_id}}</h1>
                 </div>
                 <div>
                     <a href="#" class="btn btn-secondary btn-sm" role="button"
@@ -111,6 +107,8 @@
                     <a href="#" class="btn btn-secondary btn-lg main-button" role="button"> Start a Video-call <i
                             class="fas fa-video" style="padding: 2%;"></i> <i class="fas fa-comments"></i></a>
                 </div>
+                {% endif %}
+
             </main>
         </div>
     </div>
