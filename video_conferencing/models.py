@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.fields import AutoField
 
 
-class Team:
+class Team(models.Model):
     team_id = models.AutoField(primary_key=True)
     date_formed = models.DateField(auto_now=True)
 

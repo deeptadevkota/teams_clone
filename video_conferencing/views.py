@@ -53,6 +53,10 @@ def team_form_page(request):
         team_name = request.POST.get("team_name")
         user_member = request.POST.get("user_member")
 
+        user_team = User_Team.objects.create_user(
+            username=request.user.username,)
+        
+
 def logout_page(request):
     auth.logout(request)
     return redirect("/login/")
