@@ -39,11 +39,11 @@ def register_page(request):
             return redirect("/dashboard/0")
 
 
-def dashboard_page(request,team_id):
+def dashboard_page(request, team_id):
     username = request.user.username
     user = User.objects.get(username=username)
     user_teams = User_Team.objects.filter(user_name=username)
-    return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id":team_id})
+    return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id": team_id})
 
 
 def team_form_page(request):
@@ -52,10 +52,17 @@ def team_form_page(request):
     else:
         team_name = request.POST.get("team_name")
         user_member = request.POST.get("user_member")
+        team = Team()
+        team.save()
+        team_id = team.team_id
+        user_team1 = User_Team(user_name=request.user.username,
+                               team_id=team_id, team_name=team_name, is_admin=True)
+        user_team1.save()
+        user_team2 = User_Team(user_name=user_member,
+                               team_id=team_id, team_name=team_name, is_admin=False)
+        user_team2.save()
+        return render(request, 'video_conferencing/team_register.html', {})
 
-        user_team = User_Team.objects.create_user(
-            username=request.user.username,)
-        
 
 def logout_page(request):
     auth.logout(request)
