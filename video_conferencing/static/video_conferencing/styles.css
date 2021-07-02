@@ -1,4 +1,4 @@
-h2{
+h2,p,h1{
     font-family: 'Source Sans Pro', sans-serif;
 }
 p
@@ -95,27 +95,14 @@ form{
   img{
   border-radius: 50%;}
 
-  /* side nav bar */
 
-  .sidenav {
-
-    height: 90%; /* 100% Full-height */
-    width: 20%; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0; /* Stay at the top */
-    left: 0;
-    background-color: burlywood; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-  }
 
   .top_most{
 	font-family: 'Source Sans Pro', sans-serif;
   }
   .side_most{
 	font-family: 'Source Sans Pro', sans-serif;
+	font-size: large;
   }
 
   .main-button{

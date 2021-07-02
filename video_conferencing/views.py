@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.auth.models import User, auth
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def home_page(request, room_id, user_name):
     return render(request, 'video_conferencing/home.html', {'room_id': room_id, 'user_name': user_name})
 
@@ -39,6 +41,7 @@ def register_page(request):
             return redirect("/dashboard/0")
 
 
+@login_required
 def dashboard_page(request, team_id):
     username = request.user.username
     user = User.objects.get(username=username)
@@ -46,6 +49,7 @@ def dashboard_page(request, team_id):
     return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id": team_id})
 
 
+@login_required
 def team_form_page(request):
     if request.method != "POST":
         return render(request, 'video_conferencing/team_register.html', {})
@@ -61,9 +65,41 @@ def team_form_page(request):
         user_team2 = User_Team(user_name=user_member,
                                team_id=team_id, team_name=team_name, is_admin=False)
         user_team2.save()
-        return render(request, 'video_conferencing/team_register.html', {})
+        link = "/dashboard/"+str(team_id) + '/'
+        return redirect(link)
 
 
+@login_required
+def add_members_page(request, team_id):
+    if request.method != "POST":
+        return render(request, 'video_conferencing/add_members.html', {'team_id': team_id})
+    else:
+        user1 = request.POST.get("user1")
+        user2 = request.POST.get('user2')
+        user3 = request.POST.get('user3')
+        user4 = request.POST.get('user4')
+        user_team1 = User_Team(
+            user_name=user1, team_id=int(team_id), is_admin=False)
+        user_team1.save()
+
+        if(user2 != ''):
+            user_team2 = User_Team(
+                user_name=user2, team_id=int(team_id), is_admin=False)
+            user_team2.save()
+        if(user3 != ''):
+            user_team3 = User_Team(
+                user_name=user3, team_id=int(team_id), is_admin=False)
+            user_team3.save()
+        if(user4 != ''):
+            user_team4 = User_Team(
+                user_name=user4, team_id=int(team_id), is_admin=False)
+            user_team4.save()
+
+        link = "/dashboard/"+str(team_id) + '/'
+        return redirect(link)
+
+
+@login_required
 def logout_page(request):
     auth.logout(request)
     return redirect("/login/")
