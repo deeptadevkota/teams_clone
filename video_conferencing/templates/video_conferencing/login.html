@@ -1,4 +1,5 @@
 {% load static %}
+
 <head>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -7,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
         crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" href="{% static 'video_conferencing/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'video_conferencing/styles.css' %}">
     <script src="https://kit.fontawesome.com/de94240876.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
@@ -50,7 +51,16 @@
                         <p>Don't have an account? <a href="/register/">Register Here</a></p>
                     </div>
                 </div>
+                <div class="col s12" class="text-center">
+                    <h4>
+                        {% for message in messages %}
+                        {{message}}
+                        {%endfor%}
+                    </h4>
+                </div>
             </div>
+
         </div>
+
     </div>
 </body>

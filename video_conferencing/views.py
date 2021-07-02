@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 @login_required
@@ -20,6 +21,9 @@ def login_page(request):
         if user is not None:
             auth.login(request, user)
             return redirect("/dashboard/0")
+        else:
+            messages.info(request, "Invalid credentials")
+            return redirect("/login/")
 
 
 def register_page(request):
@@ -31,6 +35,11 @@ def register_page(request):
         username = request.POST.get("username")
         email = request.POST.get('email')
         password = request.POST.get('password')
+
+        if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
+            messages.info(request, "Username or email is already taken")
+            return redirect("/register/")
+
         user = User.objects.create_user(
             username=username, password=password, email=email, last_name=last_name, first_name=first_name)
         user.save()
@@ -56,6 +65,10 @@ def team_form_page(request):
     else:
         team_name = request.POST.get("team_name")
         user_member = request.POST.get("user_member")
+        if User.objects.filter(username=user_member).exists() is not True or user_member == request.user.username:
+            messages.info(request, "Member user is invalid")
+            return redirect("/team_form/")
+
         team = Team()
         team.save()
         team_id = team.team_id
@@ -74,25 +87,58 @@ def add_members_page(request, team_id):
     if request.method != "POST":
         return render(request, 'video_conferencing/add_members.html', {'team_id': team_id})
     else:
-        user1 = request.POST.get("user1")
+        user1 = request.POST.get('user1')
         user2 = request.POST.get('user2')
         user3 = request.POST.get('user3')
         user4 = request.POST.get('user4')
-        user_team1 = User_Team(
-            user_name=user1, team_id=int(team_id), is_admin=False)
-        user_team1.save()
+
+        
+
+        if(User.objects.filter(username=user1).exists()
+           and User_Team.objects.filter(user_name=user1, team_id=int(team_id)).exists() is not True):
+            user_team1 = User_Team(
+                user_name=user1, team_id=int(team_id), is_admin=False)
+        else:
+            messages.info(request, "Invalid member entry")
+            link = "/add_members/"+str(team_id) + '/'
+            return redirect(link)
 
         if(user2 != ''):
-            user_team2 = User_Team(
-                user_name=user2, team_id=int(team_id), is_admin=False)
+            if(User.objects.filter(username=user2).exists()
+               and User_Team.objects.filter(user_name=user2, team_id=int(team_id)).exists() is not True):
+                user_team2 = User_Team(
+                    user_name=user2, team_id=int(team_id), is_admin=False)
+            else:
+                messages.info(request, "Invalid member entry")
+                link = "/add_members/"+str(team_id) + '/'
+                return redirect(link)
+
+        if(user3 != ''):
+            if(User.objects.filter(username=user3).exists() and
+               User_Team.objects.filter(user_name=user3, team_id=int(team_id)).exists() is not True):
+                user_team3 = User_Team(
+                    user_name=user3, team_id=int(team_id), is_admin=False)
+            else:
+                messages.info(request, "Invalid member entry")
+                link = "/add_members/"+str(team_id) + '/'
+                return redirect(link)
+
+        if(user4 != ''):
+            if(User.objects.filter(username=user4).exists() and
+               User_Team.objects.filter(user_name=user4, team_id=int(team_id)).exists() is not True):
+                user_team4 = User_Team(
+                    user_name=user4, team_id=int(team_id), is_admin=False)
+            else:
+                messages.info(request, "Invalid member entry")
+                link = "/add_members/"+str(team_id) + '/'
+                return redirect(link)
+
+        user_team1.save()
+        if(user2 != ''):
             user_team2.save()
         if(user3 != ''):
-            user_team3 = User_Team(
-                user_name=user3, team_id=int(team_id), is_admin=False)
             user_team3.save()
         if(user4 != ''):
-            user_team4 = User_Team(
-                user_name=user4, team_id=int(team_id), is_admin=False)
             user_team4.save()
 
         link = "/dashboard/"+str(team_id) + '/'

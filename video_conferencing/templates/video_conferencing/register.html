@@ -36,7 +36,7 @@
                             {% csrf_token %}
                             <div class="row">
                                 <input type="text" name="first_name" id="first_name" class="form__input validate"
-                                    placeholder="First Name"  required >
+                                    placeholder="First Name" required>
                             </div>
                             <div class="row">
                                 <input type="text" name="last_name" id="last_name" class="form__input validate"
@@ -47,7 +47,8 @@
                                     placeholder="Username" required>
                             </div>
                             <div class="row">
-                                <input type="email" name="email" id="email" class="form__input validate" placeholder="Email" required>
+                                <input type="email" name="email" id="email" class="form__input validate"
+                                    placeholder="Email" required>
                             </div>
                             <div class="row">
                                 <input type="password" name="password" id="password" class="form__input validate"
@@ -58,8 +59,21 @@
                             </div>
                         </form>
                     </div>
+                    <div class="row">
+                        <p>Already have an account? <a href="/login/">Login Here</a></p>
+                    </div>
+                </div>
+
+                <div class="col s12" class="text-center">
+                    <h4>
+                        {%for message in messages%}
+                        {{message}}
+                        {%endfor%}
+                    </h4>
                 </div>
             </div>
+
         </div>
     </div>
+
 </body>

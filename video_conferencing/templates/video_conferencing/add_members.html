@@ -56,6 +56,13 @@
                         </form>
                     </div>
                 </div>
+                <div class="col s12" class="text-center">
+                    <h4>
+                        {% for message in messages %}
+                        {{message}}
+                        {%endfor%}
+                    </h4>
+                </div>
             </div>
         </div>
     </div>
