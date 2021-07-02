@@ -56,7 +56,11 @@ def dashboard_page(request, team_id, name):
     username = request.user.username
     user = User.objects.get(username=username)
     user_teams = User_Team.objects.filter(user_name=username)
-    return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id": team_id, "name": name})
+    if(team_id != '0'):
+        team_members = User_Team.objects.filter(team_id=team_id)
+    else:
+        team_members=None
+    return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id": team_id, "name": name, "team_members": team_members})
 
 
 @login_required

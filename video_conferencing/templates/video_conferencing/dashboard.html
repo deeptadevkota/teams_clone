@@ -60,12 +60,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/logout/">Sign Out</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">User Profile</a>
-                        </li>
-
                     </ul>
-
                 </div>
             </nav>
         </section>
@@ -113,12 +108,22 @@
                     <h1 class="h2">Welcome to Group - {{name}} - {{team_id}}</h1>
                 </div>
                 <div>
-                    <a href="#" class="btn btn-secondary btn-sm" role="button"
-                        style="width: 40%; margin-right: 1rem; height: 2rem;">View
-                        Members <i class="fas fa-users"></i></a>
+                    <!-- <li class="nav-item dropdown"> -->
+
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown">
+                        View Members
+                    </a>
+                    <div class="dropdown-menu">
+                        {% for teams in team_members%}
+                        <a class="dropdown-item" href="">{{teams.user_name}}</a>
+                        {% endfor %}
+                    </div>
                     <a href="/add_members/{{team_id}}/{{name}}" class="btn btn-secondary btn-sm" role="button"
-                        style="width: 40%;height: 2rem;"> Add
-                        Member <i class="fas fa-user-plus"></i></a>
+                        style="width: 40%;height: 2rem; margin-left: 25%;"> Add
+                        Members <i class="fas fa-user-plus"></i></a>
+                    <!-- </li> -->
+
                 </div>
                 <div>
                     <a href="/{{team_id}}/{{user}}/" class="btn btn-secondary btn-lg main-button" role="button">
