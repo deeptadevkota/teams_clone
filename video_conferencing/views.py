@@ -1,14 +1,8 @@
-from re import T
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
-
-@login_required
-def home_page(request, room_id, user_name):
-    return render(request, 'video_conferencing/home.html', {'room_id': room_id, 'user_name': user_name})
 
 
 def login_page(request):
@@ -59,7 +53,7 @@ def dashboard_page(request, team_id, name):
     if(team_id != '0'):
         team_members = User_Team.objects.filter(team_id=team_id)
     else:
-        team_members=None
+        team_members = None
     return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id": team_id, "name": name, "team_members": team_members})
 
 
@@ -146,6 +140,11 @@ def add_members_page(request, team_id, name):
 
         link = "/dashboard/"+str(team_id) + '/' + str(name) + '/'
         return redirect(link)
+
+
+@login_required
+def home_page(request, room_id, user_name):
+    return render(request, 'video_conferencing/home.html', {'room_id': room_id, 'user_name': user_name})
 
 
 @login_required

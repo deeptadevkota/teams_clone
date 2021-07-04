@@ -112,3 +112,8 @@ form{
 	 padding: 2%;
 	 /* margin-right: auto; */
   }
+
+  .top-text-box{
+	width: 25%; 
+	margin-left: 20%;
+  }
