@@ -39,7 +39,6 @@
                     margin-left: 20%;">
                 <a href="/{{team_id}}/{{user}}/" role="button" class="btn btn-secondary btn-sm"
                     style="height: 2rem; width: 4rem;">Go!</a>
-
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -135,8 +134,17 @@
                         Start/Join a
                         Video-call <i class="fas fa-video" style="padding: 2%;"></i> <i class="fas fa-comments"></i></a>
                 </div>
+
                 {% endif %}
+                <div style="margin-left: 15%; margin-top: 15%;">
+                    <h1>
+                        {% for message in messages %}
+                        {{message}}
+                        {%endfor%}
+                    </h1>
+                </div>
             </main>
+
         </div>
     </div>
 </body>

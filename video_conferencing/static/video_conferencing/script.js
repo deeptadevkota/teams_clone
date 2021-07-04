@@ -1,5 +1,4 @@
 let messages = [];
-
 let localStream = null;
 let videoalreadyadded = []
 let conntetedpeers = new Object()
@@ -10,28 +9,44 @@ let mediaConstraints = {
     video: true
 };
 let screensharebool = false
+let isMessageOpen = false
+let firsttime = true
+let ctx = null
+let board = false
+let plots = []
+let drawing = false;
 getLocalStreamFunc()
 socket = new WebSocket(endpoint)
 socket.onmessage = function (e) {
     let data = JSON.parse(e.data).obj
-    if (data.type === "joined" && screensharebool == true)
+    if (data.type === "joined" && screensharebool == true) {
         videoAndScreen(data)
-    else if (data.type === "joined")
+    }
+    else if (data.type === "joined") {
         invite(data)
-    else if (data.type === "video-offer" && (data.target === user_name || data.target === user_name + '$'))
+    }
+    else if (data.type === "video-offer" && (data.target === user_name || data.target === user_name + '$')) {
+
         handleVideoOfferMsg(data)
-    else if (data.type === "new-ice-candidate" && (data.target === user_name || data.target === user_name + '$'))
+    }
+    else if (data.type === "new-ice-candidate" && (data.target === user_name || data.target === user_name + '$')) {
         handleNewICECandidateMsg(data)
-    else if (data.type === "video-answer" && (data.target === user_name || data.target === user_name + '$'))
+    }
+    else if (data.type === "video-answer" && (data.target === user_name || data.target === user_name + '$')) {
         handleAnswerMsg(data)
-    else if (data.type === "left")
+    }
+    else if (data.type === "left") {
         handleLeftMsg(data)
-    else if (data.type === "screenShareLeft")
+    }
+    else if (data.type === "screenShareLeft") {
         handleleftscreenshare(data);
-    else if (data.type === "msg")
+    }
+    else if (data.type === "msg") {
         messagecame(data.message, data.user_name)
-    else if (data.type === "whiteBoard")
-        drawOnCanvas(data.plots);
+    }
+    else if (data.type === "whiteBoard") {
+        drawOnCanvas(data.plots)
+    }
 
 }
 async function getLocalStreamFunc() {
@@ -147,7 +162,6 @@ async function shareScreen() {
     displayMediaStream.getVideoTracks()[0].onended = screenshareended
 }
 async function videoAndScreen(data) {
-    console.log("here")
     invite(data)
     setTimeout(function () {
         user_name = user_name + '$';
@@ -188,18 +202,11 @@ function addVideoStream(stream, user_id) {
     videoGrid.append(video)
     videoalreadyadded = [...videoalreadyadded, user_id]
 }
-var isMessageOpen = false
-var firsttime = true;
-var ctx = null;
-var board = false;
-var plots = [];
 messages.forEach(i => $("ul").append(`<li class="message">${i}</li>`));
 function whiteBoard() {
     if (board == false) {
         const canvas = document.createElement('canvas');
         canvas.id = 'canvas';
-        // canvas.style.height = "600px";
-        // canvas.style.width = "800px";
         const videoGrid = document.getElementById('video-grid');
         videoGrid.append(canvas);
         board = true;
@@ -210,11 +217,10 @@ function whiteBoard() {
     }
     else {
         document.getElementById('canvas').remove();
-        board=false;
+        board = false;
     }
 }
 
-let drawing = false;
 function startDrawing(e) {
     drawing = true;
     draw(e);
