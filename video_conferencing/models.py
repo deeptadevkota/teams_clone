@@ -14,3 +14,7 @@ class User_Team(models.Model):
     team_name = models.CharField(max_length=200, default="demo")
     is_admin = models.BooleanField(default=False)
 
+
+class Chat(models.Model):
+    team_id = models.IntegerField()
+    message = models.CharField(max_length=1000)

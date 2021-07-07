@@ -1,6 +1,8 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
+
+from django.contrib import messages
 from .models import *
 
 
@@ -21,6 +23,19 @@ class ConnectConsumer(WebsocketConsumer):
         )
         self.accept()
 
+        # function to send the old messages
+        print("***********")
+        print("connnected")
+        chats = Chat.objects.filter(team_id=int(self.room_id))
+        for chat in chats:
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_id,
+                {
+                    'type': 'connection_message',
+                    'obj': {'message': chat.message, 'type': 'old_msg', 'user_name': self.user_id}
+                }
+            )
+
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_send)(
             self.room_id,
@@ -37,6 +52,7 @@ class ConnectConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        type = text_data_json['type']
         async_to_sync(self.channel_layer.group_send)(
             self.room_id,
             {
@@ -45,11 +61,19 @@ class ConnectConsumer(WebsocketConsumer):
             }
         )
         print(text_data_json)
+        if(type == 'msg'):
+            chat = Chat()
+            chat.team_id = int(self.room_id)
+            chat.message = text_data_json['message']
+            chat.save()
 
     def connection_message(self, event):
         self.send(text_data=json.dumps({
             'obj': event['obj'],
         }))
+
+
+# another view class
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -60,8 +84,15 @@ class ChatConsumer(WebsocketConsumer):
             self.room_name,
             self.channel_name
         )
-
         self.accept()
+
+        # here is exactly where you extract the stored chats from the data base and send it as a message
+        chats = Chat.objects.filter(team_id=int(self.room_name))
+        for chat in chats:
+            self.send(text_data=json.dumps({
+                'message': chat.message,
+                'type': "old_msg"
+            }))
 
     def disconnect(self, close_code):
         # Leave room group
@@ -74,6 +105,7 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        type = text_data_json['type']
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
@@ -83,14 +115,19 @@ class ChatConsumer(WebsocketConsumer):
                 'message': message
             }
         )
-        print('******')
-        print(message)
+        if(type != 'old_msg'):
+            chat = Chat()
+            chat.team_id = int(self.room_name)
+            chat.message = message
+            chat.save()
 
     # Receive message from room group
+
     def chat_message(self, event):
         message = event['message']
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({
-            'message': message
+            'message': message,
+            'type': "chat_message"
         }))

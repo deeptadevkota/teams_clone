@@ -5,4 +5,5 @@ from .models import *
 
 admin.site.register(Team)
 admin.site.register(User_Team)
+admin.site.register(Chat)
 

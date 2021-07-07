@@ -41,7 +41,7 @@ socket.onmessage = function (e) {
     else if (data.type === "screenShareLeft") {
         handleleftscreenshare(data);
     }
-    else if (data.type === "msg") {
+    else if (data.type === "msg" || data.type == "old_msg") {
         messagecame(data.message, data.user_name)
     }
     else if (data.type === "whiteBoard") {
