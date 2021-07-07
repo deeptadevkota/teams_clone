@@ -169,9 +169,13 @@
         socket = new WebSocket(endpoint)
 
         socket.onmessage = function (e) {
-            let data = JSON.parse(e.data)
-            console.log(data)
-            document.querySelector('#chat-log').value += (data.message + '\n');
+            let dataMsg = JSON.parse(e.data)
+            tmp = dataMsg.message
+            for (let i = 0; i < tmp.length; i++)
+                document.querySelector('#chat-log').value += tmp[i] + '\n';
+
+            // dataMsg.forEach
+            //     ((msg) => { document.querySelector('#chat-log').value += (msg + '\n'); });
         }
         document.querySelector('#chat-message-input').focus();
         document.querySelector('#chat-message-input').onkeyup = function (e) {
