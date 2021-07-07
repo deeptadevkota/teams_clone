@@ -92,7 +92,6 @@ DATABASES = {
         'PASSWORD': 'teams_clone',
         'HOST': 'localhost',
         'PORT': '3306'
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

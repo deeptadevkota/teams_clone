@@ -1,7 +1,6 @@
 {% load static %}
 
 <head>
-
     <!-- Style Sheets and Bootstrap CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -20,6 +19,11 @@
     <script src="https://kit.fontawesome.com/de94240876.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <script>
+        let username = "{{ user|safe }}"
+        let team_id = "{{ team_id|safe }}"
+        let name = "{{ name| safe}}"
+    </script>
     <!-- <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <title>Dashboard</title>
@@ -34,11 +38,12 @@
                 <a class="navbar-brand" href="">
                     <h2>Microsoft Teams <span class="fab fa-microsoft"></span></h2>
                 </a>
-                <input type="text" name="user4" id="user4" class="form__input validate top-text-box"
+                <input type="text" id="message" class="form__input validate top-text-box"
                     placeholder="Enter a group ID to enter the Video-call room" style="width: 25%; 
                     margin-left: 20%;">
-                <a href="/{{team_id}}/{{user}}/" role="button" class="btn btn-secondary btn-sm"
-                    style="height: 2rem; width: 4rem;">Go!</a>
+                <input id="message-submit" type="button" value="Enter" class="btn btn-secondary btn-sm"
+                    style="height: 2rem; width: 4rem; margin-left:1rem;">
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -112,7 +117,9 @@
                     <h1 class="h2">Welcome to Group - {{name}} - {{team_id}}</h1>
                 </div>
                 <div>
-                    <!-- <li class="nav-item dropdown"> -->
+                    <a href="/add_members/{{team_id}}/{{name}}" class="btn btn-secondary btn-sm" role="button"
+                        style="width: 10%;"> Add
+                        Members <i class="fas fa-user-plus"></i></a>
 
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown">
@@ -123,17 +130,26 @@
                         <a class="dropdown-item" href="">{{teams.user_name}}</a>
                         {% endfor %}
                     </div>
-                    <a href="/add_members/{{team_id}}/{{name}}" class="btn btn-secondary btn-sm" role="button"
-                        style="width: 40%;height: 2rem; margin-left: 25%;"> Add
-                        Members <i class="fas fa-user-plus"></i></a>
-                    <!-- </li> -->
+                    <div>
+                        <a href="/{{team_id}}/{{user}}/" class="btn btn-secondary btn-lg main-button" role="button"
+                            style="margin-top: 0%; ">
+                            Start/Join a
+                            Video-call <i class="fas fa-video"></i> <i class="fas fa-comments"></i></a>
+                        <!-- </li> -->
+                    </div>
 
                 </div>
-                <div>
-                    <a href="/{{team_id}}/{{user}}/" class="btn btn-secondary btn-lg main-button" role="button">
-                        Start/Join a
-                        Video-call <i class="fas fa-video" style="padding: 2%;"></i> <i class="fas fa-comments"></i></a>
+                <div id="chat-box">
+                    <div class="main__header">
+                        <h3>Chat</h3>
+                    </div>
+                    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+                    <div id="main__message_container" class="main__message_container">
+                        <input id="chat-message-input" type="text" size="100">
+                        <input id="chat-message-submit" type="button" value="Send">
+                    </div>
                 </div>
+
 
                 {% endif %}
                 <div style="margin-left: 15%; margin-top: 15%;">
@@ -143,8 +159,44 @@
                         {%endfor%}
                     </h1>
                 </div>
+
             </main>
 
         </div>
     </div>
+    <script>
+        let endpoint = 'ws://' + window.location.host + '/ws/dashboard/' + team_id + '/' + name + '/'
+        socket = new WebSocket(endpoint)
+
+        socket.onmessage = function (e) {
+            let data = JSON.parse(e.data)
+            console.log(data)
+            document.querySelector('#chat-log').value += (data.message + '\n');
+        }
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function (e) {        //storing the message and sending it in JSON format to the server
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            socket.send(JSON.stringify({
+                'message': message,
+                'type': "msg",
+                'user_name': username
+            }));
+            messageInputDom.value = '';
+        };
+
+        document.querySelector('#message-submit').onclick = function (e) {
+            const messageInputDom = document.querySelector('#message');
+            const message = messageInputDom.value;
+            messageInputDom.value = '';
+            if (message != '')
+                window.location.pathname = '/' + message + '/' + username;
+        };
+    </script>
 </body>

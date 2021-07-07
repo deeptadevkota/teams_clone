@@ -314,7 +314,6 @@ function muteUnmute() {
     var enabled = localStream.getAudioTracks()[0].enabled;
     if (enabled) {
         localStream.getAudioTracks()[0].enabled = false;
-        // document.getElementById(user_name).srcObject.getAudioTracks()[0].enabled = false;
         setUnmuteButton();
     }
     else {

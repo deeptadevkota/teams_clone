@@ -54,7 +54,14 @@ def dashboard_page(request, team_id, name):
         team_members = User_Team.objects.filter(team_id=team_id)
     else:
         team_members = None
-    return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id": team_id, "name": name, "team_members": team_members})
+
+    if User_Team.objects.filter(
+            user_name=user, team_id=int(team_id)).exists() or team_id == '0':
+        return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id": team_id, "name": name, "team_members": team_members})
+    else:
+        messages.info(
+            request, "You are not permitted to access the group that you aren't part of")
+        return redirect("/dashboard/0/demo/")
 
 
 @login_required

@@ -13,3 +13,4 @@ class User_Team(models.Model):
     team_id = models.IntegerField()
     team_name = models.CharField(max_length=200, default="demo")
     is_admin = models.BooleanField(default=False)
+
