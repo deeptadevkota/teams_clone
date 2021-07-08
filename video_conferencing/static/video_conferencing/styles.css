@@ -142,8 +142,9 @@ form{
 	margin-bottom: 2%;
 }
 #input-box{
-	/* margin-right: 0%;
+	width: 100%;
     
-	width: 100%; */
-    
+}
+#chat-message-input{
+	border-radius: 50px;
 }
