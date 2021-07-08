@@ -120,6 +120,15 @@ form{
 
 #chat-box{
 	width: 50%;
-	height: 25%;
+	height: 15%;
 	overflow: scroll;
+}
+.message {
+    background-color:#CDF0EA;
+    padding: 5px;
+    margin: 10px;
+    margin-left: 50px;
+    position:relative;
+	width: 20%;
+	border-radius: 50px;
 }

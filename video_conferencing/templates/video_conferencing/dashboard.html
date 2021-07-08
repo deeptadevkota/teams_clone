@@ -141,7 +141,7 @@
                 </div>
 
                 <div id="chat-box">
-                    <ul id="chat-log"></ul>
+                    <!-- < id="chat-log"></ul> -->
                 </div>
 
                 <input id="chat-message-input" type="text" size="100">
@@ -170,12 +170,12 @@
             let dataMsg = JSON.parse(e.data)
             tmp = dataMsg.message
             for (let i = 0; i < tmp.length; i++) {
-                let app = document.querySelector('#chat-log');
-                let li = document.createElement('li');
-                li.textContent = tmp[i];
+                let app = document.querySelector('#chat-box')
+                let li = document.createElement('div')
+                li.textContent = tmp[i]
+                li.className = 'message'
                 app.append(li)
                 scrollToBottom()
-
             }
         }
         const scrollToBottom = () => {
