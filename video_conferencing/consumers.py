@@ -1,16 +1,14 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
-
 from django.contrib import messages
-from django.http import request
 from .models import *
 
 
 class ConnectConsumer(WebsocketConsumer):
     def connect(self):
         self.room_id = self.scope['url_route']['kwargs']['room_id']
-        self.user_id = request.user.username
+        self.user_id = self.scope['url_route']['kwargs']['user_id']
         async_to_sync(self.channel_layer.group_send)(
             self.room_id,
             {
@@ -23,6 +21,13 @@ class ConnectConsumer(WebsocketConsumer):
             self.channel_name
         )
         self.accept()
+        chats = Chat.objects.filter(team_id=int(self.room_id))
+        chat_msg = []
+        for chat in chats:
+            chat_msg.append(chat.message)
+        self.send(text_data=json.dumps({
+            'obj': {'type': 'msg', 'message': chat_msg, 'user_name': 'test'}
+        }))
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_send)(
@@ -36,10 +41,11 @@ class ConnectConsumer(WebsocketConsumer):
             self.room_id,
             self.channel_name
         )
+# made changes here
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        print(text_data_json)
+        type = text_data_json['type']
         async_to_sync(self.channel_layer.group_send)(
             self.room_id,
             {
@@ -47,6 +53,12 @@ class ConnectConsumer(WebsocketConsumer):
                 'obj': text_data_json
             }
         )
+        print(text_data_json)
+        if type == 'msg':
+            chat = Chat()
+            chat.team_id = int(self.room_id)
+            chat.message = text_data_json['message'][0]
+            chat.save()
 
     def connection_message(self, event):
         self.send(text_data=json.dumps({
@@ -68,17 +80,21 @@ class ChatConsumer(WebsocketConsumer):
         self.accept()
 
         # here is exactly where you extract the stored chats from the data base and send it as a message
+        # chats = Chat.objects.filter(team_id=int(self.room_name))
+
+        #     self.send(text_data=json.dumps({
+        #         'message': chat.message,
+        #         'type': "old_msg"
+        #     }))
         chats = Chat.objects.filter(team_id=int(self.room_name))
         chat_msg = []
         for chat in chats:
             chat_msg.append(chat.message)
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_name,
-            {
-                'type': 'chat_message',
-                'message': chat_msg
-            }
-        )
+        self.send(text_data=json.dumps({
+            'message': chat_msg,
+            'type': "old_msg",
+            'user_name': 'test'
+        }))
 
     def disconnect(self, close_code):
         # Leave room group
@@ -91,6 +107,8 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        type = text_data_json['type']
+
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_name,
@@ -99,7 +117,7 @@ class ChatConsumer(WebsocketConsumer):
                 'message': [message]
             }
         )
-
+        print(text_data_json)
         chat = Chat()
         chat.team_id = int(self.room_name)
         chat.message = message
@@ -109,7 +127,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def chat_message(self, event):
         message = event['message']
-        print("hi")
+
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'message': message,

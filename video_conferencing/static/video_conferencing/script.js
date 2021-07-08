@@ -4,7 +4,7 @@ let videoalreadyadded = []
 let conntetedpeers = new Object()
 let displayMediaStream = null
 let endpoint = 'ws://' + window.location.host + '/ws/' + room_id + '/' + user_name + '/'
-let endpoint2 = 'ws://' + window.location.host + '/ws/dashboard/' + room_id + '/' + '15/'
+// let endpoint2 = 'ws://' + window.location.host + '/ws/dashboard/' + room_id + '/' + '15/'
 let mediaConstraints = {
     audio: true,
     video: true
@@ -18,8 +18,7 @@ let plots = []
 let drawing = false;
 getLocalStreamFunc()
 socket = new WebSocket(endpoint)
-chatSocket = new WebSocket(endpoint2)
-
+// chatSocket = new WebSocket(endpoint2)
 socket.onmessage = function (e) {
     let data = JSON.parse(e.data).obj
     if (data.type === "joined" && screensharebool == true) {
@@ -44,16 +43,23 @@ socket.onmessage = function (e) {
     else if (data.type === "screenShareLeft") {
         handleleftscreenshare(data);
     }
+    else if (data.type === "msg") {
+        // messagecame(data.message, data.user_name)
+
+        let tmp = data.message
+        for (let i = 0; i < tmp.length; i++)
+            messagecame(tmp[i], data.user_name)
+    }
     else if (data.type === "whiteBoard") {
         drawOnCanvas(data.plots)
     }
 }
-chatSocket.onmessage = function (e) {
-    let dataMsg = JSON.parse(e.data)
-    tmp = dataMsg.message
-    for (let i = 0; i < tmp.length; i++)
-        messagecame(tmp[i], "user")
-}
+// chatSocket.onmessage = function (e) {
+//     let dataMsg = JSON.parse(e.data)
+//     tmp = dataMsg.message
+//     for (let i = 0; i < tmp.length; i++)
+//         messagecame(tmp[i], dataMsg.user_name)
+// }
 async function getLocalStreamFunc() {
     localStream = await navigator.mediaDevices.getUserMedia(mediaConstraints)
     addVideoStream(localStream, user_name)
@@ -288,9 +294,10 @@ function toggleNav() {
         document.querySelector('#chat-message-submit').onclick = function (e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            console.log(message);
-            chatSocket.send(JSON.stringify({
-                'message': message,
+            let msg = []
+            msg.push(message)
+            socket.send(JSON.stringify({
+                'message': msg,
                 'type': "msg",
                 'user_name': user_name,
             }));

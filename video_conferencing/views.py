@@ -150,8 +150,7 @@ def add_members_page(request, team_id, name):
 
 
 @login_required
-def home_page(request, team_id):
-    user_name = request.user.username
+def home_page(request, team_id, user_name):
     if User_Team.objects.filter(
             user_name=user_name, team_id=int(team_id)).exists():
         return render(request, 'video_conferencing/home.html', {'team_id': team_id, 'user_name': user_name})
