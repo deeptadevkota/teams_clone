@@ -3,13 +3,14 @@ from channels.generic.websocket import WebsocketConsumer
 import json
 
 from django.contrib import messages
+from django.http import request
 from .models import *
 
 
 class ConnectConsumer(WebsocketConsumer):
     def connect(self):
         self.room_id = self.scope['url_route']['kwargs']['room_id']
-        self.user_id = self.scope['url_route']['kwargs']['user_id']
+        self.user_id = request.user.username
         async_to_sync(self.channel_layer.group_send)(
             self.room_id,
             {
