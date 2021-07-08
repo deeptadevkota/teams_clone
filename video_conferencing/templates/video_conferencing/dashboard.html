@@ -139,13 +139,17 @@
                     </div>
 
                 </div>
+                <div id="chat-container">
+                    <div id="chat-box">
+                        <!-- < id="chat-log"></ul> -->
 
-                <div id="chat-box">
-                    <!-- < id="chat-log"></ul> -->
+                    </div>
+                    <div id="input-box">
+                        <input id="chat-message-input" type="text" size="75">
+                        <input id="chat-message-submit" type="button" value="Send">
+                    </div>
                 </div>
 
-                <input id="chat-message-input" type="text" size="100">
-                <input id="chat-message-submit" type="button" value="Send">
 
 
 
@@ -171,10 +175,13 @@
             tmp = dataMsg.message
             for (let i = 0; i < tmp.length; i++) {
                 let app = document.querySelector('#chat-box')
-                let li = document.createElement('div')
+                let li = document.createElement('span')
                 li.textContent = tmp[i]
-                li.className = 'message'
-                app.append(li)
+                li.classList.add('message');
+                let new_div = document.createElement('div')
+                new_div.className = "chat_div"
+                new_div.append(li)
+                app.append(new_div)
                 scrollToBottom()
             }
         }
@@ -191,7 +198,8 @@
 
         document.querySelector('#chat-message-submit').onclick = function (e) {        //storing the message and sending it in JSON format to the server
             const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
+            let message = messageInputDom.value;
+            message = username + " : " + message;
             socket.send(JSON.stringify({
                 'message': message,
                 'type': "msg",

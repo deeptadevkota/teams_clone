@@ -79,13 +79,6 @@ class ChatConsumer(WebsocketConsumer):
         )
         self.accept()
 
-        # here is exactly where you extract the stored chats from the data base and send it as a message
-        # chats = Chat.objects.filter(team_id=int(self.room_name))
-
-        #     self.send(text_data=json.dumps({
-        #         'message': chat.message,
-        #         'type': "old_msg"
-        #     }))
         chats = Chat.objects.filter(team_id=int(self.room_name))
         chat_msg = []
         for chat in chats:

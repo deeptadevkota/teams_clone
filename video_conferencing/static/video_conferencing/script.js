@@ -48,7 +48,7 @@ socket.onmessage = function (e) {
 
         let tmp = data.message
         for (let i = 0; i < tmp.length; i++)
-            messagecame(tmp[i], data.user_name)
+            messagecame(tmp[i])
     }
     else if (data.type === "whiteBoard") {
         drawOnCanvas(data.plots)
@@ -293,7 +293,8 @@ function toggleNav() {
 
         document.querySelector('#chat-message-submit').onclick = function (e) {
             const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
+            let message = messageInputDom.value;
+            message = user_name + " : " + message
             let msg = []
             msg.push(message)
             socket.send(JSON.stringify({
@@ -310,8 +311,8 @@ function toggleNav() {
 
 
 
-function messagecame(message, name) {
-    message = name + " : " + message;
+function messagecame(message) {
+    // message = name + " : " + message;
     messages = [...messages, message];
     // if (x.style.display === "block")
     //     document.querySelector('#chat-log').value += (message + '\n');

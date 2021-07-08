@@ -117,18 +117,33 @@ form{
 	width: 25%; 
 	margin-left: 20%;
   }
+  #chat-container{
+	width: 65%;
+	height: 10%;
+	margin:auto;
 
+  }
 #chat-box{
-	width: 50%;
-	height: 15%;
+	width: 100%;
+	height: 100%;
 	overflow: scroll;
+	background-color: #EDF6E5;
+	margin: auto;
+	padding: 2%;
 }
 .message {
     background-color:#CDF0EA;
-    padding: 5px;
-    margin: 10px;
-    margin-left: 50px;
     position:relative;
-	width: 20%;
 	border-radius: 50px;
+	padding: 10px;
+	line-height: 2;
+}
+.chat_div{
+	margin-bottom: 2%;
+}
+#input-box{
+	/* margin-right: 0%;
+    
+	width: 100%; */
+    
 }
