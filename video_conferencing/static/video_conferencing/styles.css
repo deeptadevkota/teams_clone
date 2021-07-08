@@ -118,8 +118,8 @@ form{
 	margin-left: 20%;
   }
 
-#main__chat_window{
-	width: 25%;
+#chat-box{
+	width: 50%;
 	height: 25%;
-	color:red;
+	overflow: scroll;
 }
