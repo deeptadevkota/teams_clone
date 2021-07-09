@@ -30,3 +30,6 @@ txaio==20.4.1
 zope.interface==5.1.2
 mysql-connector-python==8.0.23
 mysqlclient==1.4.4
+gunicorn==20.1.0
+whitenoise==5.2.0
+
