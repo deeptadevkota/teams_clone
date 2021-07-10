@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%j8on2&&l^h+19^1()p=xp2v73w6@sf6!9to5bn7+3!!&%+#d@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['teams-clone-deepta-devkota.herokuapp.com', '*']
 
@@ -86,6 +86,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'WebRtc.wsgi.application'
 
 
+# used the MySQL database while running the app locally
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -97,6 +98,7 @@ DATABASES = {
     }
 }
 
+# used postgreSQL while hosting the app
 
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
