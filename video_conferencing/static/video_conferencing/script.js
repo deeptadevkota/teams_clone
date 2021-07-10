@@ -3,7 +3,7 @@ let localStream = null;
 let videoalreadyadded = []
 let conntetedpeers = new Object()
 let displayMediaStream = null
-let endpoint = 'wss://' + window.location.host + '/ws/' + room_id + '/' + user_name + '/'
+let endpoint = 'ws://' + window.location.host + '/ws/' + room_id + '/' + user_name + '/'
 // let endpoint2 = 'ws://' + window.location.host + '/ws/dashboard/' + room_id + '/' + '15/'
 let mediaConstraints = {
     audio: true,
@@ -316,7 +316,7 @@ function messagecame(message) {
     messages = [...messages, message];
     // if (x.style.display === "block")
     //     document.querySelector('#chat-log').value += (message + '\n');
-    $("ul").append(`<li class="message">${message}</li>`);
+    document.querySelector("ul").append(`<li class="message">${message}</li>`);
     scrollToBottom()
 }
 const scrollToBottom = () => {
