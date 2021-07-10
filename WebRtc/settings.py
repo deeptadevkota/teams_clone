@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%j8on2&&l^h+19^1()p=xp2v73w6@sf6!9to5bn7+3!!&%+#d@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['teams-clone-deepta-devkota.herokuapp.com', '*']
 
@@ -58,11 +58,12 @@ ROOT_URLCONF = 'WebRtc.urls'
 ASGI_APPLICATION = "WebRtc.routing.application"
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('redis://:TAtNFknHoAzNY043pBNV9Mmscu3cEtsU@redis-15742.c256.us-east-1-2.ec2.cloud.redislabs.com:15742')],
-            # "hosts": [('localhost', 6379)]
-        },
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        #  'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        # 'CONFIG': {
+        #     "hosts": [('redis://:TAtNFknHoAzNY043pBNV9Mmscu3cEtsU@redis-15742.c256.us-east-1-2.ec2.cloud.redislabs.com:15742')],
+        #     # "hosts": [('localhost', 6379)]
+        # },
     },
 }
 
