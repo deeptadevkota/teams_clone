@@ -84,20 +84,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'WebRtc.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'teams_clone',
-#         'USER': 'teams_clone',
-#         'PASSWORD': 'teams_clone',
-#         'HOST': 'localhost',
-#         'PORT': '3306'
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
