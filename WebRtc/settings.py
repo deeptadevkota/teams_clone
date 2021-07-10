@@ -56,25 +56,25 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'WebRtc.urls'
 ASGI_APPLICATION = "WebRtc.routing.application"
-CHANNEL_LAYERS = {
-    'default': {
-        # 'BACKEND': 'channels.layers.InMemoryChannelLayer',
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('redis://:TAtNFknHoAzNY043pBNV9Mmscu3cEtsU@redis-15742.c256.us-east-1-2.ec2.cloud.redislabs.com:15742')],
-            # "hosts": [('localhost', 6379)]
-        },
-    },
-}
-
 # CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+#     'default': {
+#         # 'BACKEND': 'channels.layers.InMemoryChannelLayer',
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('redis://:TAtNFknHoAzNY043pBNV9Mmscu3cEtsU@redis-15742.c256.us-east-1-2.ec2.cloud.redislabs.com:15742')],
+#             # "hosts": [('localhost', 6379)]
 #         },
 #     },
 # }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+    },
+}
 
 # APPEND_SLASH=False
 TEMPLATES = [
