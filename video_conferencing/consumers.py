@@ -53,7 +53,7 @@ class ConnectConsumer(WebsocketConsumer):
                 'obj': text_data_json
             }
         )
-        print(text_data_json)
+       # print(text_data_json)
         if type == 'msg':
             chat = Chat()
             chat.team_id = int(self.room_id)

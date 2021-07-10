@@ -60,10 +60,12 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('localhost', 6379)],
+            "hosts": [('redis://:TAtNFknHoAzNY043pBNV9Mmscu3cEtsU@redis-15742.c256.us-east-1-2.ec2.cloud.redislabs.com:15742')],
+            # "hosts": [('localhost', 6379)]
         },
     },
 }
+
 # APPEND_SLASH=False
 TEMPLATES = [
     {
