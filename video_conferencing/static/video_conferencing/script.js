@@ -312,17 +312,10 @@ function toggleNav() {
 
 
 function messagecame(message) {
-    // message = name + " : " + message;
     messages = [...messages, message];
     // if (x.style.display === "block")
     //     document.querySelector('#chat-log').value += (message + '\n');
-    for (let i = 0; i < messages.length; i++) {
-
-        let li = document.createElement('li')
-        li.className = "message"
-        li.textContent = messages[i]
-        document.querySelector("ul").append(li);
-    }
+    $("ul").append(`<li class="message">${message}</li>`);
     scrollToBottom()
 }
 const scrollToBottom = () => {
