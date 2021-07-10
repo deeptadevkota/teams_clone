@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -95,6 +96,9 @@ DATABASES = {
         'PORT': '3306'
     }
 }
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age == 600)
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
