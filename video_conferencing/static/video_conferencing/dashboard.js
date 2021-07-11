@@ -5,7 +5,7 @@ socket.onmessage = function (e) {
     let dataMsg = JSON.parse(e.data)
     tmp = dataMsg.message
     for (let i = 0; i < tmp.length; i++) {
-        let app = document.querySelector('#chat-box')
+        let app = document.querySelector('#scroll-object')
         let li = document.createElement('span')
         li.textContent = tmp[i]
         li.classList.add('message');
@@ -17,10 +17,10 @@ socket.onmessage = function (e) {
     }
 }
 const scrollToBottom = () => {
-    let d = $('#chat-box');
+    let d = $('.scroll-div');
     d.scrollTop(d.prop("scrollHeight"));
 }
-document.querySelector('#chat-message-input').focus();
+
 document.querySelector('#chat-message-input').onkeyup = function (e) {
     if (e.keyCode === 13) {  // enter, return
         document.querySelector('#chat-message-submit').click();
@@ -44,5 +44,5 @@ document.querySelector('#message-submit').onclick = function (e) {
     const message = messageInputDom.value;
     messageInputDom.value = '';
     if (message != '')
-        window.location.pathname = '/' + message + '/' + username;
+        window.location.pathname = '/dashboard/' + message + '/'
 };

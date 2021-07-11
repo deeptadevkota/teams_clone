@@ -355,3 +355,6 @@ function setPlayVideo() {
     const html = `<button class="btn-sec" onclick="playStop()"><i class="fas fa-video-slash"></i></button>`
     document.querySelector('.main__video_button').innerHTML = html;
 }
+function endMeet() {
+    window.location.pathname = '/dashboard/' + room_id + '/'
+}

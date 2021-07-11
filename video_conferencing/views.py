@@ -96,10 +96,15 @@ def team_form_page(request):
 
 
 @login_required
-def add_members_page(request, team_id, name):
+def add_members_page(request, team_id):
     if request.method != "POST":
-        return render(request, 'video_conferencing/add_members.html', {'team_id': team_id, "name": name})
+        return render(request, 'video_conferencing/add_members.html', {'team_id': team_id})
     else:
+        user = request.user.username
+        team_name = User_Team.objects.filter(
+            user_name=user, team_id=int(team_id))
+        name = team_name[0].team_name
+
         user1 = request.POST.get('user1')
         user2 = request.POST.get('user2')
         user3 = request.POST.get('user3')

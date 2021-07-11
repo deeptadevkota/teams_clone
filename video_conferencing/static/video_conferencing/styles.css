@@ -14,7 +14,7 @@ p
 	display: flex;
 }
 .company__info{
-	background-color: #505AC9;
+	background-color: #04009A;
 	border-top-left-radius: 20px;
 	border-bottom-left-radius: 20px;
 	display: flex;
@@ -39,7 +39,7 @@ p
 	.main-content{width: 70%;}
 }
 .row > h2{
-	color:#505AC9;
+	color:#04009A;
     margin: auto;
 }
 .login_form{
@@ -64,7 +64,7 @@ form{
 	transition: all .5s ease;
 }
 .form__input:focus{
-	border-bottom-color: #505AC9;
+	border-bottom-color: #04009A;
 	box-shadow: 0 0 5px rgba(0,80,80,.4); 
 	border-radius: 4px;
 }
@@ -75,12 +75,12 @@ form{
 	color:#505AC9;
 	font-weight: 600;
 	background-color: #fff;
-	border: 1px solid #505AC9;
+	border: 1px solid #04009A;
 	margin-top: 1.5em;
 	margin-bottom: 1em;
 }
 .btn:hover, .btn:focus{
-	background-color: #505AC9;
+	background-color: #04009A;
 	color:#fff;
 }
 
@@ -88,7 +88,7 @@ form{
     padding: 0.5rem 2.5rem 1rem;
   }
   .colored-section {
-    background-color:#505AC9;
+    background-color:#04009A;
     color: #fff;
     
   }
@@ -117,34 +117,54 @@ form{
 	width: 25%; 
 	margin-left: 20%;
   }
-  #chat-container{
-	width: 65%;
-	height: 10%;
-	margin:auto;
 
-  }
-#chat-box{
-	width: 100%;
-	height: 100%;
-	overflow: scroll;
-	background-color: #EDF6E5;
-	margin: auto;
-	padding: 2%;
-}
 .message {
-    background-color:#CDF0EA;
+    background-color:#f7f5fd;
     position:relative;
 	border-radius: 50px;
 	padding: 10px;
-	line-height: 2;
+	line-height: 3;
 }
 .chat_div{
 	margin-bottom: 2%;
 }
 #input-box{
 	width: 100%;
+	margin-left: 100px;
+	margin-right: 0px;
     
 }
 #chat-message-input{
 	border-radius: 50px;
+}
+#box-heading{
+	font-family: 'Source Sans Pro', sans-serif;
+	color: #04009A;
+	font-size: 40px;
+}
+.scroll-bg{
+    background: #efedf6;
+    width:740px;
+    margin:0% auto;
+    padding: 30px;
+    border-radius: 50px;
+	box-shadow: 0 5px 5px rgba(0,0,0,.4);
+}
+.scroll-div{
+    width: 700px;
+    background:#efedf6;
+    height: 550px;
+	overflow-y: scroll;
+}
+#scroll-object{
+    color: black;
+
+}
+#meet-button{
+	width:15rem;
+	height: 3rem; 
+	margin-top: 0%;
+	margin-left: 60%;
+	padding: 2%;
+	
 }

@@ -116,7 +116,7 @@
                     <h1 class="h2">Welcome to Group - {{name}} - {{team_id}}</h1>
                 </div>
                 <div>
-                    <a href="/add_members/{{team_id}}/{{name}}" class="btn btn-secondary btn-sm" role="button"
+                    <a href="/add_members/{{team_id}}/" class="btn btn-secondary btn-sm" role="button"
                         style="width: 10%;"> Add
                         Members <i class="fas fa-user-plus"></i></a>
 
@@ -129,25 +129,27 @@
                         <a class="dropdown-item" href="">{{teams.user_name}}</a>
                         {% endfor %}
                     </div>
-                    <div>
-                        <a href="/{{team_id}}/" class="btn btn-secondary btn-lg main-button" role="button"
-                            style="margin-top: 0%; ">
-                            Start/Join a
-                            Video-call <i class="fas fa-video"></i> <i class="fas fa-comments"></i></a>
-                        <!-- </li> -->
-                    </div>
 
                 </div>
-                <div id="chat-container">
-                    <div id="chat-box">
-                        <!-- < id="chat-log"></ul> -->
+                <div class="scroll-bg">
+                    <span id="box-heading">Chat Box</span>
+                    <a href="/{{team_id}}/" class="btn btn-secondary btn-lg main-button" role="button" id="meet-button">
+                        Join the meet  <i class="fas fa-video "></i>
+                    </a>
 
+                    <div class="scroll-div">
+                        <div id="scroll-object">
+                        </div>
                     </div>
                     <div id="input-box">
-                        <input id="chat-message-input" type="text" size="75">
-                        <input id="chat-message-submit" type="button" value="Send">
+                        <input id="chat-message-input" type="text" size='50' style="height:3rem;">
+                        <input id="chat-message-submit" type="button" value="Send" class="btn btn-secondary btn-sm"
+                            style=" width: 4rem;">
                     </div>
                 </div>
+
+
+
 
 
 
