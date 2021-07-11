@@ -3,7 +3,7 @@ let localStream = null;
 let videoalreadyadded = []
 let conntetedpeers = new Object()
 let displayMediaStream = null
-let endpoint = 'ws://' + window.location.host + '/ws/' + room_id + '/' + user_name + '/'
+let endpoint = 'wss://' + window.location.host + '/ws/' + room_id + '/' + user_name + '/'
 // let endpoint2 = 'ws://' + window.location.host + '/ws/dashboard/' + room_id + '/' + '15/'
 let mediaConstraints = {
     audio: true,
