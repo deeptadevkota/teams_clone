@@ -3,8 +3,7 @@ let localStream = null;
 let videoalreadyadded = []
 let conntetedpeers = new Object()
 let displayMediaStream = null
-let endpoint = 'wss://' + window.location.host + '/ws/' + room_id + '/' + user_name + '/'
-// let endpoint2 = 'ws://' + window.location.host + '/ws/dashboard/' + room_id + '/' + '15/'
+let endpoint = 'wss://' + window.location.host + '/ws/' + room_id + '/'
 let mediaConstraints = {
     audio: true,
     video: true
@@ -18,7 +17,6 @@ let plots = []
 let drawing = false;
 getLocalStreamFunc()
 socket = new WebSocket(endpoint)
-// chatSocket = new WebSocket(endpoint2)
 socket.onmessage = function (e) {
     let data = JSON.parse(e.data).obj
     if (data.type === "joined" && screensharebool == true) {
@@ -44,7 +42,6 @@ socket.onmessage = function (e) {
         handleleftscreenshare(data);
     }
     else if (data.type === "msg") {
-        // messagecame(data.message, data.user_name)
 
         let tmp = data.message
         for (let i = 0; i < tmp.length; i++)
@@ -54,12 +51,7 @@ socket.onmessage = function (e) {
         drawOnCanvas(data.plots)
     }
 }
-// chatSocket.onmessage = function (e) {
-//     let dataMsg = JSON.parse(e.data)
-//     tmp = dataMsg.message
-//     for (let i = 0; i < tmp.length; i++)
-//         messagecame(tmp[i], dataMsg.user_name)
-// }
+
 async function getLocalStreamFunc() {
     localStream = await navigator.mediaDevices.getUserMedia(mediaConstraints)
     addVideoStream(localStream, user_name)

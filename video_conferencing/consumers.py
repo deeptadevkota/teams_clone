@@ -2,13 +2,19 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
 from django.contrib import messages
+from django.http import request
 from .models import *
+# from channels.auth import channel_session_user, channel_session_user_from_http
 
 
 class ConnectConsumer(WebsocketConsumer):
+    http_user = True
     def connect(self):
         self.room_id = self.scope['url_route']['kwargs']['room_id']
-        self.user_id = self.scope['url_route']['kwargs']['user_id']
+        # self.user_id = self.scope['url_route']['kwargs']['user_id']
+        self.user = self.scope["user"]
+        self.user_id = self.user.username
+        print(self.user.username)
         async_to_sync(self.channel_layer.group_send)(
             self.room_id,
             {
@@ -70,9 +76,12 @@ class ConnectConsumer(WebsocketConsumer):
 
 
 class ChatConsumer(WebsocketConsumer):
+    http_user = True
+
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['team_id']
-
+        self.user = self.scope["user"]
+        print(self.user)
         async_to_sync(self.channel_layer.group_add)(
             self.room_name,
             self.channel_name

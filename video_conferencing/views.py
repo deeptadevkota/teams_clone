@@ -15,7 +15,7 @@ def login_page(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect("/dashboard/0/demo/")
+            return redirect("/dashboard/0/")
         else:
             messages.info(request, "Invalid credentials")
             return redirect("/login/")
@@ -42,19 +42,26 @@ def register_page(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect("/dashboard/0/demo/")
+            return redirect("/dashboard/0/")
 
 
 @login_required
-def dashboard_page(request, team_id, name):
+def dashboard_page(request, team_id):
     username = request.user.username
     user = User.objects.get(username=username)
     user_teams = User_Team.objects.filter(user_name=username)
+    name = None
     if(team_id != '0'):
         team_members = User_Team.objects.filter(team_id=team_id)
     else:
         team_members = None
 
+    if User_Team.objects.filter(
+            user_name=user, team_id=int(team_id)).exists():
+        team_name = User_Team.objects.filter(
+            user_name=user, team_id=int(team_id))
+        name = team_name[0].team_name
+    print(name)
     if User_Team.objects.filter(
             user_name=user, team_id=int(team_id)).exists() or team_id == '0':
         return render(request, 'video_conferencing/dashboard.html', {"users": user, "user_teams": user_teams, "team_id": team_id, "name": name, "team_members": team_members})
@@ -150,7 +157,8 @@ def add_members_page(request, team_id, name):
 
 
 @login_required
-def home_page(request, team_id, user_name):
+def home_page(request, team_id):
+    user_name = request.user.username
     if User_Team.objects.filter(
             user_name=user_name, team_id=int(team_id)).exists():
         return render(request, 'video_conferencing/home.html', {'team_id': team_id, 'user_name': user_name})
