@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%j8on2&&l^h+19^1()p=xp2v73w6@sf6!9to5bn7+3!!&%+#d@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # defining the allowed hosts
 ALLOWED_HOSTS = ['teams-clone-deepta-devkota.herokuapp.com', '*']

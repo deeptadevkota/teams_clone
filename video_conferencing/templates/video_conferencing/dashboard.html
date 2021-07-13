@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'video_conferencing/styles.css' %}">
-    <!-- JavaScript -->
+    <!-- JavaScript and jquery-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -15,7 +15,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
-
+    <!-- fonts -->
     <script src="https://kit.fontawesome.com/de94240876.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
@@ -24,12 +24,11 @@
         let team_id = "{{ team_id|safe }}"
         let name = "{{ name| safe}}"
     </script>
-    <!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <title>Dashboard</title>
 </head>
 
 <body>
+    <!-- Top most Navbar -->
     <div class="top_most">
         <section class="colored-section">
             <nav class="navbar navbar-expand-lg navbar-dark">
@@ -73,6 +72,7 @@
             </nav>
         </section>
     </div>
+    <!-- Side nav bar -->
     <div class="container-fluid side_most">
         <div class="row">
             <nav class="navbar col-md-3 col-lg-2 d-md-block" style="background-color: #fff; ">
@@ -97,9 +97,10 @@
                         </a>
                     </li>
                 </ul>
-                <!-- </div> -->
             </nav>
+            <!-- main-window -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- if none of the groups are selected -->
                 {% if team_id == '0' %}
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -134,7 +135,7 @@
                 <div class="scroll-bg">
                     <span id="box-heading">Chat Box</span>
                     <a href="/{{team_id}}/" class="btn btn-secondary btn-lg main-button" role="button" id="meet-button">
-                        Join the meet  <i class="fas fa-video "></i>
+                        Join the meet <i class="fas fa-video "></i>
                     </a>
 
                     <div class="scroll-div">
@@ -147,13 +148,6 @@
                             style=" width: 4rem;">
                     </div>
                 </div>
-
-
-
-
-
-
-
                 {% endif %}
                 <div style="margin-left: 15%; margin-top: 15%;">
                     <h1>

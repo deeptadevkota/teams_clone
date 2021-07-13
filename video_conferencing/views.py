@@ -6,6 +6,7 @@ from django.contrib import messages
 
 # check validity function returns true if the user is valid and is already part of the team
 
+
 def checkValidity(user, team_id):
     if(User.objects.filter(username=user).exists()
        and User_Team.objects.filter(user_name=user, team_id=int(team_id)).exists() is not True):
@@ -193,12 +194,12 @@ def add_members_page(request, team_id):
 
 
 @login_required
-def home_page(request, team_id):
+def video_page(request, team_id):
     user_name = request.user.username
     # check if the user is part of the group
     if User_Team.objects.filter(
             user_name=user_name, team_id=int(team_id)).exists():
-        return render(request, 'video_conferencing/home.html', {'team_id': team_id, 'user_name': user_name})
+        return render(request, 'video_conferencing/videoPage.html', {'team_id': team_id, 'user_name': user_name})
     else:
         messages.info(
             request, "You are not permitted to access the call of the group that you aren't part of")

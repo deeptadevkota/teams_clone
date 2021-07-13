@@ -15,5 +15,5 @@ urlpatterns = [
     path('dashboard/<str:team_id>/', dashboard_page, name="dashboard_page"),
     path('team_form/', team_form_page, name="team_form_page"),
     path('add_members/<str:team_id>/', add_members_page, name="add_members_page"),
-    path('<str:team_id>/', home_page, name="home_page"),
+    path('<str:team_id>/', video_page, name="video_page"),
 ]
