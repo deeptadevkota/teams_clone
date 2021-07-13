@@ -27,37 +27,53 @@ let drawing = false;
 
 //function call to get the video stream of the user
 getLocalStreamFunc()
+// websocket endpoint formed
 socket = new WebSocket(endpoint)
+
+//function to listen to the websocket and invokes respective function as per the message type
 socket.onmessage = function (e) {
+    //obtaining the data from the JSON format data
     let data = JSON.parse(e.data).obj
+
+    //this condition is set true when the a new user has joined and
+    //the current user is sharing the screen
+    //one more Peerconnection with the pseudouser(i.e screen share) has to be established
     if (data.type === "joined" && screensharebool == true) {
         videoAndScreen(data)
     }
+    //this condition is set true when the a new user has joined and
+    //the current user is not sharing the screen
     else if (data.type === "joined") {
         invite(data)
     }
+    //this condition is set true when a video offer is made to the user
     else if (data.type === "video-offer" && (data.target === user_name || data.target === user_name + '$')) {
 
         handleVideoOfferMsg(data)
     }
+    // this condition is set true when a new ice candidate is to be added as the user
     else if (data.type === "new-ice-candidate" && (data.target === user_name || data.target === user_name + '$')) {
         handleNewICECandidateMsg(data)
     }
+    // this condition is set true when the video answer message is send to the user
     else if (data.type === "video-answer" && (data.target === user_name || data.target === user_name + '$')) {
         handleAnswerMsg(data)
     }
+    // this condition is set true when the user is notified that any one of the user has left the video chat room
     else if (data.type === "left") {
         handleLeftMsg(data)
     }
+    // this condition is true when a user in the video chat room has stopped sharing the screen
     else if (data.type === "screenShareLeft") {
         handleleftscreenshare(data);
     }
+    // this condition is set true when a user in the video chat room sends a chat message
     else if (data.type === "msg") {
-
         let tmp = data.message
         for (let i = 0; i < tmp.length; i++)
             messagecame(tmp[i])
     }
+    // this condition is set true when a user in the video chat room draws on the canvas
     else if (data.type === "whiteBoard") {
         drawOnCanvas(data.plots)
     }
@@ -70,8 +86,9 @@ async function getLocalStreamFunc() {
     addVideoStream(localStream, user_name)
 }
 /*
-function invoked when a new user joins the video call room
-creates a new peer connection and obtained the local streams
+this function takes input as the data from the websocket
+this function invoked when a new user joins the video call room
+it creates a new peer connection and obtained the local streams
  */
 async function invite(data) {
     targetUsername = data.name;
@@ -81,7 +98,8 @@ async function invite(data) {
     localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream));
 }
 /*
-creates a new RTCpeer connection, when a user joins the call
+this function takes a target user name as the input
+It creates a new RTCpeer connection when a user joins the call
  */
 function createPeerConnection(targetUsername) {
     myPeerConnection = new RTCPeerConnection({
@@ -101,6 +119,7 @@ function createPeerConnection(targetUsername) {
 /*
 this function takes the targetUsername and the event as the input
 invoked when negotiation of the connection through the signaling channel is required.
+it sends the video-offer message to the target user
 */
 async function handleNegotiationNeededEvent(event, targetUsername) {
     myPeerConnection = conntetedpeers[targetUsername][0]
@@ -118,6 +137,7 @@ async function handleNegotiationNeededEvent(event, targetUsername) {
 /*
 This function takes the data obatined from the websocket as the input
 It is invoked when a the message is answered from the the target user accepts the video offer
+It sets the specified session description as the remote peer's current offer or answer
 */
 
 async function handleAnswerMsg(msg) {
@@ -133,7 +153,7 @@ async function handleAnswerMsg(msg) {
 This function takes the data obatined from the websocket as the input
 It is invoked when a video offer message is made to the user
 it adds the ICE candidate to the PeerConnection 
-and in return a video answer message is send to the target
+and a video-answer message is send to the target
  */
 async function handleVideoOfferMsg(msg) {
     targetUsername = msg.name;
@@ -159,7 +179,7 @@ async function handleVideoOfferMsg(msg) {
 
 /*
 this function takes the targetUsername and the event as the input
-This functions sends the contents of ICE candidates transmit using the signaling server.  
+This functions transmit the contents of ICE candidates using the signaling server.  
 */
 function handleICECandidateEvent(event, targetUsername) {
     if (event.candidate) {
@@ -172,7 +192,7 @@ function handleICECandidateEvent(event, targetUsername) {
     }
 }
 /*
-This adds thw new remote candidate to the RTCPeerConnection's remote description
+This adds the new remote candidate to the RTCPeerConnection's remote description
 which describes the state of the remote end of the connection.
  */
 function handleNewICECandidateMsg(msg) {
@@ -185,7 +205,7 @@ function handleNewICECandidateMsg(msg) {
         myPeerConnection.addIceCandidate(candidate)
 }
 /*
-this functions add the stream to the browser when a new Peer connection is made
+this functions adds the stream to the browser when a new Peer connection is made
  */
 function handleRemoteStreamEvent(event, user_id) {
     addVideoStream(event.streams[0], user_id)
@@ -215,7 +235,8 @@ async function inviteShare(targetUsername) {
 }
 /*
 this function is invoked when user wishes to share his/her screen
-the user_name is concatenated with a dollor sign to mimiks the screen share stream as a new user stream
+the user_name is concatenated with a dollor sign to create a pseudo user
+in order to the screen share stream as a new user stream
  */
 async function shareScreen() {
     user_name = user_name + "$"
@@ -231,8 +252,8 @@ async function shareScreen() {
 /*
     this function is invoked when a new user joins the call 
     when a screen share is being shared by a an existing user
-    it first handles the event when the just the video stream
-    and then handles the event when the video and screen share
+    it first handles the event with just the video stream
+    and then handles the event and screen share stream acting by creating an impression of the pseudo user
  */
 async function videoAndScreen(data) {
     invite(data)
@@ -244,6 +265,7 @@ async function videoAndScreen(data) {
 }
 /*
     function is invoked when a user stops sharing the screen
+    it send message to the websocket, to notify other user of the video chat app to remove the video element
  */
 function screenshareended() {
     screensharebool = false
@@ -255,6 +277,7 @@ function screenshareended() {
 
 /*
     function removes the screen share stream when a user stops sharing the screen
+    deletes the conntetedpeers connection as well
  */
 function handleleftscreenshare(msg) {
     videoalreadyadded = videoalreadyadded.filter(i => i !== msg.name)
@@ -300,7 +323,8 @@ function addVideoStream(stream, user_id) {
 /*
 invoked when white board button is clicked
 if the the white board is already open it removes the canvas
-if the white board is closed then it opens the canva
+if the white board is closed then it opens the canva and
+the respective functions are invoked
  */
 function whiteBoard() {
     if (board == false) {
@@ -328,19 +352,20 @@ function startDrawing(e) {
     draw(e);
 }
 /*
-once the drawing is done, the plots list is emptied
+once the cursor is stops drawing a line, the plots list is emptied
  */
 function finishDrawing() {
     drawing = false;
     plots = [];
 }
 /*
-    this function takes input as the canva context
-   and sends the coordinates via the web socket
+this function takes input as the canva context
+   and sends the plots (coordinates) via the web socket
  */
 function draw(e) {
     if (drawing == false)
         return;
+    //obtaining the x and y coordinates
     let x = e.clientX, y = e.clientY;
     let z = null;
     if (plots.length >= 1)
@@ -440,11 +465,11 @@ function muteUnmute() {
     else {
         setMuteButton();
         localStream.getAudioTracks()[0].enabled = true;
-        // document.getElementById(user_name).srcObject.getAudioTracks()[0].enabled = true;
     }
 }
 /*
-function to block the video if the user wishes not to show video
+function to disable the video if the user wishes not to show video
+or if the enable the video if the user is showing the video
  */
 function playStop() {
     var enabled = localStream.getVideoTracks()[0].enabled;
@@ -459,24 +484,28 @@ function playStop() {
         document.getElementById(user_name).srcObject.getVideoTracks()[0].enabled = true;
     }
 }
+// styling of the mute button
 function setMuteButton() {
     const html = `<button onclick="muteUnmute()"><i class="fas fa-microphone"></i></button>`
     document.querySelector('.main__mute_button').innerHTML = html;
 }
+//styling of the unmute buttton
 function setUnmuteButton() {
     const html = `<button class="btn-sec" onclick="muteUnmute()"><i class="fas fa-microphone-slash"></i></button>`
     document.querySelector('.main__mute_button').innerHTML = html;
 }
+//styling of the stop video button
 function setStopVideo() {
     const html = `<button onclick="playStop()"><i class="fas fa-video"></i></button>`
     document.querySelector('.main__video_button').innerHTML = html;
 }
+//styling of the play video button 
 function setPlayVideo() {
     const html = `<button class="btn-sec" onclick="playStop()"><i class="fas fa-video-slash"></i></button>`
     document.querySelector('.main__video_button').innerHTML = html;
 }
 /*
-this function ends the meet and redirects to the dashboard
+this function makes the user leave the meet and redirects to the dashboard
  */
 function endMeet() {
     window.location.pathname = '/dashboard/' + team_id + '/'

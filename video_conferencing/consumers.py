@@ -39,7 +39,7 @@ class ConnectConsumer(WebsocketConsumer):
             'obj': {'type': 'msg', 'message': chat_msg, 'user_name': 'test'}
         }))
 
-    # closes the websocket connection
+    # closes the websocket connection and sends the left message to the browser
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_send)(
             self.room_id,
@@ -52,8 +52,8 @@ class ConnectConsumer(WebsocketConsumer):
             self.room_id,
             self.channel_name
         )
-    # Receive message from WebSocket
 
+    # Receives message from WebSocket and sends it to the browser
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         type = text_data_json['type']
@@ -81,6 +81,7 @@ class ConnectConsumer(WebsocketConsumer):
 # Class to handle the websocket connection of the Dashboard chat feature
 
 class ChatConsumer(WebsocketConsumer):
+    # inittates the websocker connection
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['team_id']
         async_to_sync(self.channel_layer.group_add)(
@@ -98,12 +99,14 @@ class ChatConsumer(WebsocketConsumer):
             'type': "old_msg",
         }))
 
+    # function to disconnect the websocket connection
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
             self.room_name,
             self.channel_name
         )
 
+    # receives message from the websocket and sends it to the browser
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
@@ -115,10 +118,12 @@ class ChatConsumer(WebsocketConsumer):
                 'message': [message]
             }
         )
+        # saves the chat messages
         chat = Chat()
         chat.team_id = int(self.room_name)
         chat.message = message
         chat.save()
+    # sends message to the web browser
 
     def chat_message(self, event):
         message = event['message']

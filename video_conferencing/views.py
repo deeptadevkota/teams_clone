@@ -96,7 +96,7 @@ def dashboard_page(request, team_id):
         return redirect("/dashboard/0/")
 
 
-# function to to handle the group formation request
+# function to handle the group formation request
 @login_required
 def team_form_page(request):
     if request.method != "POST":
@@ -125,7 +125,6 @@ def team_form_page(request):
         return redirect(link)
 
 # function to add members to the pre-existing group
-
 
 @login_required
 def add_members_page(request, team_id):
@@ -192,7 +191,6 @@ def add_members_page(request, team_id):
 
 # function to return video conferencing page
 
-
 @login_required
 def video_page(request, team_id):
     user_name = request.user.username
@@ -205,8 +203,7 @@ def video_page(request, team_id):
             request, "You are not permitted to access the call of the group that you aren't part of")
         return redirect("/dashboard/0/demo/")
 
-# function to log the user out of the system
-
+# function to log the user out of the app
 
 @login_required
 def logout_page(request):
