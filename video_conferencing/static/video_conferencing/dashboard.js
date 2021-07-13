@@ -1,4 +1,4 @@
-let endpoint = 'wss://' + window.location.host + '/ws/dashboard/' + team_id + '/'
+let endpoint = 'ws://' + window.location.host + '/ws/dashboard/' + team_id + '/'
 socket = new WebSocket(endpoint)
 
 socket.onmessage = function (e) {
