@@ -18,7 +18,7 @@ def login_page(request):
             return redirect("/dashboard/0/")
         else:
             messages.info(request, "Invalid credentials")
-            return redirect("/login/")
+            return redirect("/")
 
 
 def register_page(request):
@@ -68,7 +68,7 @@ def dashboard_page(request, team_id):
     else:
         messages.info(
             request, "You are not permitted to access the group that you aren't part of")
-        return redirect("/dashboard/0/demo/")
+        return redirect("/dashboard/0/")
 
 
 @login_required
@@ -91,7 +91,7 @@ def team_form_page(request):
         user_team2 = User_Team(user_name=user_member,
                                team_id=team_id, team_name=team_name, is_admin=False)
         user_team2.save()
-        link = "/dashboard/"+str(team_id) + '/' + team_name + '/'
+        link = "/dashboard/"+str(team_id) + '/'
         return redirect(link)
 
 
@@ -116,7 +116,7 @@ def add_members_page(request, team_id):
                 user_name=user1, team_id=int(team_id), team_name=name, is_admin=False)
         else:
             messages.info(request, "Invalid member entry")
-            link = "/add_members/"+str(team_id) + '/' + str(name) + '/'
+            link = "/add_members/"+str(team_id) + '/'
             return redirect(link)
 
         if(user2 != ''):
@@ -126,7 +126,7 @@ def add_members_page(request, team_id):
                     user_name=user2, team_id=int(team_id), team_name=name, is_admin=False)
             else:
                 messages.info(request, "Invalid member entry")
-                link = "/add_members/"+str(team_id) + '/' + str(name) + '/'
+                link = "/add_members/"+str(team_id) + '/'
                 return redirect(link)
 
         if(user3 != ''):
@@ -136,7 +136,7 @@ def add_members_page(request, team_id):
                     user_name=user3, team_id=int(team_id), team_name=name, is_admin=False)
             else:
                 messages.info(request, "Invalid member entry")
-                link = "/add_members/"+str(team_id) + '/' + str(name) + '/'
+                link = "/add_members/"+str(team_id) + '/'
                 return redirect(link)
 
         if(user4 != ''):
@@ -146,7 +146,7 @@ def add_members_page(request, team_id):
                     user_name=user4, team_id=int(team_id), team_name=name, is_admin=False)
             else:
                 messages.info(request, "Invalid member entry")
-                link = "/add_members/"+str(team_id) + '/' + str(name) + '/'
+                link = "/add_members/"+str(team_id) + '/'
                 return redirect(link)
 
         user_team1.save()
@@ -157,7 +157,7 @@ def add_members_page(request, team_id):
         if(user4 != ''):
             user_team4.save()
 
-        link = "/dashboard/"+str(team_id) + '/' + str(name) + '/'
+        link = "/dashboard/"+str(team_id) + '/'
         return redirect(link)
 
 
@@ -176,4 +176,4 @@ def home_page(request, team_id):
 @login_required
 def logout_page(request):
     auth.logout(request)
-    return redirect("/login/")
+    return redirect("/")
